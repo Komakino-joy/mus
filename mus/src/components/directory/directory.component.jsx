@@ -41,7 +41,7 @@ const Directory = () => {
             id: 5,
             linkUrl: 'mens'
           }])
-    }, [sections])
+    }, [])
 
     return(
         <div className='directory-menu'>
