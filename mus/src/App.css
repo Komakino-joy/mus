@@ -7,3 +7,8 @@ a {
   text-decoration: none;
   color: black;
 }
+
+/* TODO: This is what aligns all items to their end, it ignores padding */
+* {
+  box-sizing: border-box;
+}
