@@ -1,13 +1,16 @@
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
 
 import Homepage from './pages/homepage/homepage.component';
 
 function App() {
   return (
-    <div>
-      <Homepage></Homepage>
-    </div>
+    <>
+      <Switch>
+        <Route exact path='/' component={Homepage} />
+      </Switch>
+    </>
   );
-}
+};
 
 export default App;
