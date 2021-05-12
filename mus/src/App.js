@@ -8,31 +8,38 @@ import SignInAndSignUpPage from './pages/signin-and-sign-up/signin-and-sign-up.c
 
 import './App.css';
 
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
-  let unsubcribeFromAuth = null;
-
+  
   //TODO: sets persistent user session for firebase.
   //TODO: this is an open subscription to firebase, connection is always open when app is mounted on DOM.
   //TODO: close subscription on Unmount
-  unsubcribeFromAuth = auth.onAuthStateChanged(user => {
-    setCurrentUser(user);
-  });
 
   useEffect(() => {
+    let unsubcribeFromAuth = null;
+    unsubcribeFromAuth = auth.onAuthStateChanged( async(userAuth) =>{
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapshot => {
+          setCurrentUser({id:snapshot.id, ...snapshot.data()});
+        })
+      }else{
+        // set current user to null
+        setCurrentUser(userAuth);
+      };
+    })
     return () => {
       unsubcribeFromAuth();
     };
-  },);
+  }, []);
 
-  
   return (
     <>
       <Header currentUser={currentUser}/>
-      <button onClick={() => console.log(currentUser)}>CONSOLE LOG auth</button>
       <Switch>
         <Route exact path='/' component={Homepage} />
         <Route exact path='/shop' component={ShopPage} />
