@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Header from '../src/components/header/header.component';
@@ -12,7 +12,7 @@ import './App.css';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 
-function App({ setCurrentUser }) {
+function App({ setCurrentUser, currentUser }) {
   //TODO: sets persistent user session for firebase.
   //TODO: this is an open subscription to firebase, connection is always open when app is mounted on DOM.
   //TODO: close subscription on Unmount
@@ -40,15 +40,21 @@ function App({ setCurrentUser }) {
       <Header/>
       <Switch>
         <Route exact path='/' component={Homepage} />
-        <Route exact path='/shop' component={ShopPage} />
-        <Route exact path='/signin' component={SignInAndSignUpPage} />
+        <Route path='/shop' component={ShopPage} />
+        <Route 
+          exact path='/signin' 
+          render={() => currentUser ? (<Redirect to='/'/>) : (<SignInAndSignUpPage/>) } />
       </Switch>
     </>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser,
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
