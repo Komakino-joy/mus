@@ -15,7 +15,6 @@ const CollectionItem = ({ item, addItemToCart }) => {
                 className='image'
                 style={{
                     backgroundImage:`url(${imageUrl})`,
-                    backgroundColor:'red'
                 }}
             />
             <div className='collection-footer'>
