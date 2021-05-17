@@ -8,20 +8,24 @@ export const selectCollections = createSelector(
     (shop) => shop.collections 
 );
 
-
-//TODO: converts object into an array 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
     collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
-//TODO: Curried function
-//TODO: Very important to note that if I were to wrap my retrun in {} I would not be able to use the selector. 
-//TODO: took a while to find bug
-//TODO: Try to understand the memoize function . 
 export const selectCollection = memoize((collectionUrlParam) => 
     createSelector(
         [selectCollections],
         (collections => collections ? collections[collectionUrlParam] : null)
     )
+);
+
+export const selectIsCollectionFetching = createSelector(
+    [selectShop],
+    (shop) => shop.isFetching,
+);
+
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    (shop) => !!shop.collections,
 );

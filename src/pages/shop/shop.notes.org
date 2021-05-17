@@ -1,0 +1,24 @@
+
+
+* REST API approach is extremely nested
+ fetch('https://firestore.googleapis.com/v1/projects/mus-shop-db/databases/(default)/documents/collections')
+ .then(res => res.json())
+ .then(collections => console.log(collections))
+
+
+
+** Observer and Observables Pattern (provides live updates.)
+ collectionRef.onSnapshot( async(snapShot) => {
+     const collectionsMap =  convertCollectionsSnapshotToMap(snapShot);
+     updateCollections(collectionsMap);
+     setIsLoading(false);
+ });
+
+
+*** Promise Pattern
+collectionRef.get()
+        .then(snapShot => {
+        const collectionsMap =  convertCollectionsSnapshotToMap(snapShot);
+        updateCollections(collectionsMap);
+        setIsLoading(false);
+    });

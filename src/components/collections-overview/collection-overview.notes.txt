@@ -1,0 +1,11 @@
+import { compose } from 'redux';
+
+transforms the confusing HOC syntax below:
+const CollectionsOverviewContainer = connect(mapStateToProps)(WithSpinner(CollectionsOverview));
+
+over to the more readable Curried function:
+
+const CollectionsOverviewContainer = compose(
+    connect(mapStateToProps),
+    WithSpinner
+)(CollectionsOverview) ;

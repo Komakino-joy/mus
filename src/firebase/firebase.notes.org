@@ -1,0 +1,6 @@
+*** the original way we were siging in 
+const provider = new firebase.auth.GoogleAuthProvider();
+** select_account will always trigger the google popup when we sign in.
+** signInWithPopup is where we can choose 'Facebook, Twitter, Github, etc.', after enabling it in firebase site
+provider.setCustomParameters({ prompt: 'select_account' });
+export const signInWithGoogle = () => auth.signInWithPopup(provider);

@@ -1,0 +1,22 @@
+*** NOTE this is how we authenticate users using the observer pattern which firebase utilizes
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        // handling sign in with email and password.
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            setEmail('');
+            setPassword('');
+        } catch (error) {
+            console.log(error);
+        };
+    };
+
+    function handleChange(event) {
+        const { value, name } = event.target;
+
+        name === 'email' ? setEmail(value) : setPassword(value);
+    };

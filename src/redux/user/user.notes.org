@@ -1,0 +1,14 @@
+*** We can stack case on top of each other if they are going to return the same object
+
+const userReducer = (state = INITIAL_STATE, action) => {
+    switch (action.type) {
+        *** case userActionTypes.GOOGLE_SIGN_IN_SUCCESS:
+        *** case userActionTypes.EMAIL_SIGN_IN_SUCCESS:
+            return{
+                ...state,
+                currentUser: action.payload
+            }
+        default:
+            return state;
+    };
+};

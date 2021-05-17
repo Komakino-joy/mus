@@ -1,0 +1,23 @@
+function App({ setCurrentUser, currentUser}) {
+  *** NOTE sets persistent user session for firebase.
+  *** NOTE this is an open subscription to firebase, connection is always open when app is mounted on DOM.
+  *** NOTE close subscription on Unmount
+  useEffect(() => {
+    let unsubcribeFromAuth = null;
+    unsubcribeFromAuth = auth.onAuthStateChanged( async(userAuth) =>{
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapshot => {
+          setCurrentUser({id:snapshot.id, ...snapshot.data()});
+        })
+      }else{
+        // set current user to null
+        setCurrentUser(userAuth);
+      };
+    })
+    return () => {
+      unsubcribeFromAuth();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);

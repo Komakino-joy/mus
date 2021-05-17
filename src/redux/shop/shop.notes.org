@@ -1,0 +1,70 @@
+ 
+ 
+*** SELCTOR
+ Curried function
+    Very important to note that if I were to wrap my retrun in {} I would not be able to use the selector. 
+    took a while to find bug
+    Try to understand the memoize function . 
+
+export const selectCollection = memoize((collectionUrlParam) => 
+    createSelector(
+        [selectCollections],
+        (collections => collections ? collections[collectionUrlParam] : null)
+    )
+);
+
+
+*** SELCTOR
+Converts object into an array
+
+export const selectCollectionsForPreview = createSelector(
+    [selectCollections],
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
+);
+
+
+*** SELCTOR
+double-bang "!!" will evauate any oject to a boolean object. 
+
+
+** SAGA
+
+** Pausing the function every time our action is called. 
+** The first parameter to takeLatest is the action we want to call.
+** The second paramter is the generator function we want to run everytime our action is fired. 
+
+*** All generator functions must have yields in them.
+*** Saga middleware is meant to run all the functions concurrently. 
+
+export function* fetchCollectionsStart() {
+    yield takeLatest(
+        shopActionTypes.FETCH_COLLECTIONS_START,
+        fetchCollectionsAsync
+    );
+};
+
+
+
+** SAGA
+*** below we can see a comparison from the orignal promise based request to the sagafied version
+export function* fetchCollectionsAsync(){
+    yield console.log('I have been called!')
+
+    try {
+        const collectionRef = firestore.collection('collections');
+        const snapshot = yield collectionRef.get();
+        const collectionsMap = yield call(convertCollectionsSnapshotToMap, snapshot);
+        yield put(fetchCollectionsSuccess(collectionsMap));
+
+    }catch (error){
+        yield put(fetchCollectionsFailure(error.message))
+    }
+
+    // collectionRef
+    //   .get()
+    //   .then(snapshot => {
+    //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    //     dispatch(fetchCollectionsSuccess(collectionsMap));
+    //   })
+    //   .catch(error => dispatch(fetchCollectionsFailure(error.message)));
+};
