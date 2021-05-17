@@ -12,7 +12,7 @@ export const selectCollections = createSelector(
 //TODO: converts object into an array 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 //TODO: Curried function
@@ -22,6 +22,6 @@ export const selectCollectionsForPreview = createSelector(
 export const selectCollection = memoize((collectionUrlParam) => 
     createSelector(
         [selectCollections],
-        collections => collections[collectionUrlParam]
+        (collections => collections ? collections[collectionUrlParam] : null)
     )
 );
