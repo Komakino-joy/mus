@@ -78,6 +78,16 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 };
 
+// check if their is a user then immediatly unsubscribe 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth)
+    }, reject)
+  });
+};
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
