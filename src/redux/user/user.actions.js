@@ -1,5 +1,21 @@
 import userActionTypes from './user.types';
 
+export const signUpStart = (userRegistrationInfo) => ({
+    type: userActionTypes.SIGN_UP_START,
+    payload: userRegistrationInfo,
+});
+
+// passed object to clarify what is being passed in.
+export const signUpSuccess = ({user, additionalData}) => ({
+    type: userActionTypes.SIGN_UP_SUCCESS,
+    payload: {user, additionalData},
+});
+
+export const signUpFailure = (error) => ({
+    type: userActionTypes.SIGN_UP_FAILURE,
+    payload: error,
+});
+
 export const googleSignInStart = () => ({
     type: userActionTypes.GOOGLE_SIGN_IN_START,
 });
