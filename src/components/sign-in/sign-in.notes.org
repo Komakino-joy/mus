@@ -20,3 +20,21 @@
 
         name === 'email' ? setEmail(value) : setPassword(value);
     };
+
+
+
+*** NOTE original code for sign in with email and password
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        // handling sign in with email and password.
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            setEmail('');
+            setPassword('');
+        } catch (error) {
+            console.log(error);
+        };
+    };

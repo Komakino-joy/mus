@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -11,30 +10,9 @@ import CheckOutPage from './pages/checkout/checkout.component';
 
 import './App.css';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
-function App({ setCurrentUser, currentUser}) {
-  useEffect(() => {
-    let unsubcribeFromAuth = null;
-    unsubcribeFromAuth = auth.onAuthStateChanged( async(userAuth) =>{
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        userRef.onSnapshot(snapshot => {
-          setCurrentUser({id:snapshot.id, ...snapshot.data()});
-        })
-      }else{
-        // set current user to null
-        setCurrentUser(userAuth);
-      };
-    })
-    return () => {
-      unsubcribeFromAuth();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+function App({currentUser}) {
 
   return (
     <>
@@ -45,7 +23,9 @@ function App({ setCurrentUser, currentUser}) {
         <Route exact path='/checkout' component={CheckOutPage} />
         <Route 
           exact path='/signin' 
-          render={() => currentUser ? (<Redirect to='/'/>) : (<SignInAndSignUpPage/>) } />
+          render={() => currentUser ? (<Redirect to='/'/>) 
+                        : (<SignInAndSignUpPage/>) } 
+        />
       </Switch>
     </>
   );
@@ -55,8 +35,4 @@ const mapStateToProps =  createStructuredSelector({
     currentUser: selectCurrentUser,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
