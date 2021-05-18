@@ -65,17 +65,6 @@ export function* signOut() {
     }
 };
 
-// export function* signUp({payload: {email, password, confirmPassword, displayName}} ) {
-//     try{
-//         if ( password !== confirmPassword) return;
-//         const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-//         const userRef = createUserProfileDocument(user, { displayName });
-//         yield put(signUpSuccess(userRef));
-//     }catch (error){
-//         yield put(signUpFailure(error));
-//     };
-// };
-
 export function* signUp({payload: {email, password, displayName}} ) {
     try{
         const { user } = yield auth.createUserWithEmailAndPassword(email, password);

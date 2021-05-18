@@ -18,8 +18,7 @@ function App({currentUser, checkUserSession}) {
 
   useEffect(() => {
     checkUserSession()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [checkUserSession])
 
   return (
     <>

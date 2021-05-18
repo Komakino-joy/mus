@@ -13,9 +13,6 @@ const ShopPage = ({ match, fetchCollectionsStart }) => {
 
     useEffect(() => {
         fetchCollectionsStart();
-        return () => {
-            // cleanup
-        } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
