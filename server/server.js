@@ -28,6 +28,7 @@ app.listen(port, error => {
 });
 
 app.post('/payment', (req, res) => {
+    console.log(process.env.STRIPE_SECRET_KEY)
     const body = {
         source: req.body.token.id,
         amount: req.body.amount,
