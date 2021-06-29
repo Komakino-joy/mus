@@ -4,14 +4,16 @@ const path = require('path');
 const helmet = require('helmet');
 const { StripeError } = require('stripe/lib/Error');
 
-if(process.env.NODE_ENV !== 'production') require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(helmet());
+app.use(helmet(
+    { contentSecurityPolicy: false }
+));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -19,7 +21,7 @@ app.use(cors());
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '.', 'client', 'build')));
 
-    app.get('*', function(req, res) {
+    app.get('*', function (req, res) {
         res.sendFile(path.join(__dirname, '.', 'client', 'build', 'index.html'));
     });
 }; './client/'
@@ -39,7 +41,7 @@ app.post('/payment', (req, res) => {
 
     stripe.charges.create(body, (stripeErr, stripeRes) => {
         if (stripeErr) {
-            res.status(500).send({ error: stripeErr });
+            res.status(500).send({ error: StripeError });
         } else {
             res.status(200).send({ success: stripeRes });
         };

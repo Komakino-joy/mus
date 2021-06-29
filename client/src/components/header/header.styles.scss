@@ -5,6 +5,7 @@
   justify-content: space-between;
   margin-bottom: 25px;
 
+
   .logo-container {
     height: 100%;
     width: 70px;
@@ -23,4 +24,21 @@
       cursor: pointer;
     }
   }
+
+  @media screen and (max-width: 800px) {
+      height: 60px;
+      padding: 10px;
+      margin-bottom: 20px;
+  
+    .logo-container {
+      width: 50px;
+      padding: 0;
+    }
+  
+    .options {
+      width: 90%;
+    }
+
+  }
 }
+
